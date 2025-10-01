@@ -11,7 +11,7 @@
 set -x  # Debug mode: print each command
 set -e  # Exit on first error
 
-REGISTRY="abhayshaw0125"
+REGISTRY="abhayshaw0301"
 
 
 BACKEND_IMAGE="$REGISTRY/takehome-backend"
