@@ -1,31 +1,44 @@
-namespace: staging
+namespace: default
 
 backend:
-  image: abhayshaw0125/takehome-backend-staging:latest
-  replicas: 2
+  image: abhayshaw0125/takehome-backend:latest
+  replicas: 1
   port: 8000
   resources:
     requests:
       cpu: "100m"
       memory: "128Mi"
     limits:
-      cpu: "200m"
-      memory: "256Mi"
+      cpu: "500m"
+      memory: "512Mi"
 
 frontend:
-  image: abhayshaw0125/takehome-frontend-staging:latest
-  replicas: 2
+  image: abhayshaw0125/takehome-frontend:latest
+  replicas: 1
   port: 80
   resources:
     requests:
       cpu: "50m"
       memory: "64Mi"
     limits:
-      cpu: "100m"
-      memory: "128Mi"
+      cpu: "200m"
+      memory: "256Mi"
 
 ingress:
-  host: staging.ewma.local
+  host: app.local
   className: nginx
 
-environment: staging
+environment: development
+
+hpa:
+  enabled: false
+  backend:
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPU: 70
+    targetMemory: 80
+  frontend:
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPU: 75
+    targetMemory: 85
