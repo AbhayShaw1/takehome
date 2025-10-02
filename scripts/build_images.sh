@@ -12,19 +12,25 @@ set -x
 set -e
 
 REGISTRY="abhayshaw0301"
+BACKEND_IMAGE="$REGISTRY/takehome-backend"
+FRONTEND_IMAGE="$REGISTRY/takehome-frontend"
 
 cd "$(dirname "$0")/.."
 
 ################
 # Build backend
 ################
-docker build -t "${REGISTRY}-staging:latest" -t "${REGISTRY}-prod:stable" ./backend
-
+docker build \
+  -t "$BACKEND_IMAGE-staging:latest" \
+  -t "$BACKEND_IMAGE-prod:stable" \
+  ./backend
 
 ################
 # Build frontend
 ################
-docker build -t "${REGISTRY}-frontend-staging:latest" -t "${REGISTRY}-frontend-prod:stable" ./frontend
-
+docker build \
+  -t "$FRONTEND_IMAGE-staging:latest" \
+  -t "$FRONTEND_IMAGE-prod:stable" \
+  ./frontend
 
 echo "✅ Backend and frontend images built successfully"
