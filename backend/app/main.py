@@ -12,5 +12,9 @@ app.add_middleware(
     allow_headers=["*"],  
 )
 
+@app.get("/metrics")
+def metrics():
+    return Response(generate_latest(), media_type="text/plain")
+
 app.include_router(average.router)
 app.include_router(emwa.router)
