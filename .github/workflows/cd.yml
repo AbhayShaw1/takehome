@@ -32,10 +32,11 @@ jobs:
 
       - name: Deploy Helm chart to Staging
         run: |
-          helm upgrade --install ewma-staging ./k8s \
+          helm upgrade --install ewma-staging k8s \
             --namespace staging \
-            --values ./k8s/values.yaml \
+            --values k8s/values.yaml \
             --wait
+
 
       - name: Verify deployment
         run: kubectl get all -n staging
@@ -60,9 +61,9 @@ jobs:
 
       - name: Deploy Helm chart to Production
         run: |
-          helm upgrade --install ewma-production ./k8s \
+          helm upgrade --install ewma-production k8s \
             --namespace production \
-            --values ./k8s/values-production.yaml \
+            --values k8s/values-production.yaml \
             --wait
 
       - name: Verify deployment
