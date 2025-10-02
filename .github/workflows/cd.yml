@@ -9,9 +9,13 @@ jobs:
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Show repo tree (debug)
+        run: ls -R
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
@@ -31,23 +35,27 @@ jobs:
           wait: 60s
 
       - name: Deploy Helm chart to Staging
+        working-directory: ${{ github.workspace }}
         run: |
-          helm upgrade --install ewma-staging k8s \
+          helm upgrade --install ewma-staging ./k8s \
             --namespace staging \
-            --values k8s/values.yaml \
+            --values ./k8s/values.yaml \
             --wait
 
-
-      - name: Verify deployment
+      - name: Verify staging deployment
         run: kubectl get all -n staging
 
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
     needs: deploy-staging
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Show repo tree (debug)
+        run: ls -R
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
@@ -60,11 +68,12 @@ jobs:
           version: v3.13.0
 
       - name: Deploy Helm chart to Production
+        working-directory: ${{ github.workspace }}
         run: |
-          helm upgrade --install ewma-production k8s \
+          helm upgrade --install ewma-production ./k8s \
             --namespace production \
-            --values k8s/values-production.yaml \
+            --values ./k8s/values-production.yaml \
             --wait
 
-      - name: Verify deployment
+      - name: Verify production deployment
         run: kubectl get all -n production
