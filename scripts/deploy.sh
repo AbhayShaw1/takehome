@@ -47,7 +47,7 @@ deploy_staging() {
   cd "$CHART_DIR"
   helm upgrade --install ewma-staging . \
     --values values-staging.yaml \
-    --wait -n staging --create-namespace
+    --wait 
   cd "$REPO_ROOT"
 }
 
@@ -59,7 +59,7 @@ deploy_production() {
   cd "$CHART_DIR"
   helm upgrade --install ewma-production . \
     --values values-production.yaml \
-    --wait -n production --create-namespace
+    --wait 
   cd "$REPO_ROOT"
 }
 
